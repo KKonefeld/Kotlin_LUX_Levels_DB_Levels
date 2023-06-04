@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "119924865354",
+    "project_id": "lux-db-meter",
+    "storage_bucket": "lux-db-meter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119924865354:android:66802d559bb45be9bca9b3",
+        "android_client_info": {
+          "package_name": "com.example.lux_db_meter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119924865354-gnbec7ddkvt9g6ltmhhfu11u8m49khju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHvIcAQye5YUwc83hBmVm9bWWgYmJ0-xg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119924865354-gnbec7ddkvt9g6ltmhhfu11u8m49khju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
