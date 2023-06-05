@@ -13,6 +13,7 @@ import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +24,7 @@ import java.io.File
 import kotlin.math.log10
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.example.lux_db_meter.auth
 
 // admin@admin.com 123456
 
@@ -35,9 +37,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var decibel: TextView
 
     private lateinit var startMeasuringButton: Button
+    private lateinit var saveMeasuresButton: Button
     private var isRecording: Boolean = false
     private var luminosityEnabled: Boolean = false
+
     private var maxLuminosityLevel: Float = 0f
+    private var decibels: Int? = null
 
     private lateinit var audioRecord: AudioRecord
     private var bufferSize: Int = 0
@@ -48,6 +53,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private lateinit var loginButton: Button
+    private lateinit var historyDataButton: Button
 
     companion object {
         private const val RECORD_AUDIO_PERMISSION = Manifest.permission.RECORD_AUDIO
@@ -69,12 +75,38 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 startRecording()
             }
         }
-
         loginButton = findViewById(R.id.loginButton)
-
-        loginButton.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+        saveMeasuresButton = findViewById(R.id.saveMeasuresButton)
+        historyDataButton = findViewById(R.id.historyDataButton)
+        auth.addAuthStateListener { firebaseAuth ->
+            if (firebaseAuth.currentUser != null) {
+                loginButton.text = "Log Out"
+                historyDataButton.visibility = View.VISIBLE
+                saveMeasuresButton.visibility = View.VISIBLE
+            } else {
+                loginButton.text = "Log In"
+                saveMeasuresButton.visibility = View.INVISIBLE
+                historyDataButton.visibility = View.INVISIBLE
+            }
+        }
+        saveMeasuresButton.setOnClickListener {
+            if (decibels != null && maxLuminosityLevel != null) {
+                saveMeasurementsToDatabase(decibels!!, maxLuminosityLevel)
+            } else {
+                Toast.makeText(this, "Invalid data", Toast.LENGTH_SHORT).show()
+            }
+        }
+        historyDataButton.setOnClickListener {
+            val intent = Intent(this, HistoryActivity::class.java)
             startActivity(intent)
+        }
+        loginButton.setOnClickListener {
+            if (auth.currentUser != null) {
+                logout()
+            } else {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         setUpSensorStuff()
@@ -164,9 +196,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         val outputFile = File(getExternalFilesDir(null), "temp_audio.pcm")
         val maxAmplitude = calculateMaxAmplitude(outputFile)
-        val decibels = (20 * log10(maxAmplitude.toDouble())).toInt()
+        decibels = (20 * log10(maxAmplitude.toDouble())).toInt()
         text.text = "Luminosity: $maxLuminosityLevel lx"
         decibel.text = "Decibels: $decibels dB"
+
 
         outputFile.delete()
     }
@@ -208,6 +241,41 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         super.onPause()
         sensorManager.unregisterListener(this)
     }
+
+    private fun logout() {
+        auth.signOut()
+        Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
+        loginButton.text = "Log In"
+    }
+    private fun saveMeasurementsToDatabase(decibels: Int, maxLuminosityLevel: Float) {
+        val user: FirebaseUser? = auth.currentUser
+        user?.let {
+            val userId = user.uid
+            val measurementsRef = database.child("measurements").child(userId)
+
+            val measurementId = measurementsRef.push().key // Generate a unique key for the measurement
+
+            measurementId?.let {
+                val measurementData = mutableMapOf<String, Any>()
+                measurementData["decibels"] = decibels
+                measurementData["luminosity"] = maxLuminosityLevel
+
+                val timestamp = System.currentTimeMillis() // Get the current timestamp
+
+                val measurementUpdates = mutableMapOf<String, Any>()
+                measurementUpdates["$measurementId"] = measurementData
+
+                measurementsRef.child(timestamp.toString()).updateChildren(measurementUpdates)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Measurement saved successfully", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(this, "Failed to save measurement: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
+    }
+
 
 
 
