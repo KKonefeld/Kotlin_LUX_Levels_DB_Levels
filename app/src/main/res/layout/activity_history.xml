@@ -12,16 +12,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#2C3E50">
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
 
-            <!-- CardView for each measurement entry -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,42 +31,51 @@
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp">
 
+                <!-- CardView content -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:background="#95B8D1">
 
                     <!-- Timestamp -->
                     <TextView
                         android:id="@+id/timestampTextView"
                         android:layout_width="wrap_content"
+                        android:text="Date: "
                         android:layout_height="wrap_content"
-                        android:textColor="#333333"
                         android:textSize="18sp"
-                        tools:text="June 1, 2023 12:34 PM" />
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#B3FFFFFF"
+                        android:padding="8dp"/>
 
                     <!-- Decibels -->
                     <TextView
                         android:id="@+id/decibelsTextView"
+                        android:text="Decibels: "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#666666"
                         android:textSize="16sp"
-                        tools:text="Decibels: 80" />
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#B3FFFFFF"
+                        android:padding="8dp"/>
 
                     <!-- Luminosity -->
                     <TextView
                         android:id="@+id/luminosityTextView"
+                        android:text="Luminosity: "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#666666"
                         android:textSize="16sp"
-                        tools:text="Luminosity: 0.7" />
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#B3FFFFFF"
+                        android:padding="8dp"/>
 
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
+
+            <!-- Add more CardViews here with the same layout_marginBottom attribute -->
 
         </LinearLayout>
     </ScrollView>

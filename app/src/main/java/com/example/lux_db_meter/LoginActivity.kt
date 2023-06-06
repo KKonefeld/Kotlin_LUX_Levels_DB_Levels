@@ -42,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         btnRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -78,6 +79,10 @@ class LoginActivity : AppCompatActivity() {
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+    }
+    override fun onBackPressed() {
+        startMainActivity()
+        finish() // Finish the LoginActivity
     }
 
 }

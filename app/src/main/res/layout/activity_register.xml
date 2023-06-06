@@ -1,73 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#2C3E50">
 
-    <!-- Email EditText -->
+    <ImageView
+        android:id="@+id/imgggg"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/register_grafika" />
+
     <EditText
         android:id="@+id/etEmail"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="24dp"
+        android:layout_below="@+id/imgggg"
+        android:layout_marginEnd="24dp"
         android:hint="Email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#D499B9"
+        android:padding="12dp"
+        android:textColorHint="#B3FFFFFF"
+        />
 
-    <!-- Password EditText -->
     <EditText
         android:id="@+id/etPassword"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_below="@+id/etEmail"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B3FFFFFF"
+        app:backgroundTint="#D499B9"
+        android:padding="12dp"/>
 
-    <!-- Confirm Password EditText -->
     <EditText
         android:id="@+id/etConfirmPassword"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_below="@+id/etPassword"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="Confirm Password"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B3FFFFFF"
+        app:backgroundTint="#D499B9"
+        android:padding="12dp"/>
 
-    <!-- Sign Up Button -->
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/etConfirmPassword"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:text="Sign Up"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword" />
+        android:textColor="#2C3E50" app:backgroundTint="#D499B9"/>
 
-    <!-- Redirect to Login TextView -->
+
+
     <TextView
         android:id="@+id/tvRedirectLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:layout_below="@+id/btnSignUp"
         android:text="Already have an account? Login"
-        android:textColor="#18206F"
+        android:padding="20dp"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

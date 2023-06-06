@@ -1,57 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:background="#2C3E50">
 
-    <!-- Email EditText -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/login_grafika" />
+
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:hint="Email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#D499B9"
+        android:padding="12dp"
+        android:textColorHint="#B3FFFFFF"
+        />
 
-    <!-- Password EditText -->
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_below="@+id/etEmail"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B3FFFFFF"
+        app:backgroundTint="#D499B9"
+        android:padding="12dp"/>
 
-    <!-- Sign-in Button -->
-    <Button
+        <Button
         android:id="@+id/btnSignIn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Sign In"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        android:layout_below="@+id/etPassword"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Login"
+        android:textColor="#2C3E50" app:backgroundTint="#D499B9"/>
 
-
-    <!-- Register Button -->
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSignIn"
         android:layout_marginTop="16dp"
-        android:text="Register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Create Account"
+        android:textColor="#2C3E50"
+        app:backgroundTint="#D499B9"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>
+
+

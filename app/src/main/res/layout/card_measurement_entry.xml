@@ -4,37 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="#95B8D1">
 
         <!-- Timestamp -->
         <TextView
             android:id="@+id/timestampTextView"
             android:layout_width="wrap_content"
+            android:text="Date: "
             android:layout_height="wrap_content"
-            android:textColor="#333333"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B3FFFFFF"
+            android:padding="8dp"/>
 
         <!-- Decibels -->
         <TextView
             android:id="@+id/decibelsTextView"
+            android:text="Decibels: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#666666"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B3FFFFFF"
+            android:padding="8dp"
+            app:backgroundTint="#D499B9"/>
 
         <!-- Luminosity -->
         <TextView
             android:id="@+id/luminosityTextView"
+            android:text="Luminosity: "
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#666666"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#B3FFFFFF"
+            android:padding="8dp"/>
 
     </LinearLayout>
 

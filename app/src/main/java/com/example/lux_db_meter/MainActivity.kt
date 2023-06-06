@@ -64,29 +64,31 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Views
         text = findViewById(R.id.luminosityTextView)
         decibel = findViewById(R.id.decibelTextView)
 
+        // Buttons
         startMeasuringButton = findViewById(R.id.startMeasuringButton)
+        loginButton = findViewById(R.id.loginButton)
+        saveMeasuresButton = findViewById(R.id.saveMeasuresButton)
+        historyDataButton = findViewById(R.id.historyDataButton)
+
+        // Firebase Authentication
+        auth.addAuthStateListener { firebaseAuth ->
+            if (firebaseAuth.currentUser != null) {
+                setLoggedInState()
+            } else {
+                setLoggedOutState()
+            }
+        }
+
+        // Button Click Listeners
         startMeasuringButton.setOnClickListener {
             if (isRecording) {
                 stopRecording()
             } else {
                 startRecording()
-            }
-        }
-        loginButton = findViewById(R.id.loginButton)
-        saveMeasuresButton = findViewById(R.id.saveMeasuresButton)
-        historyDataButton = findViewById(R.id.historyDataButton)
-        auth.addAuthStateListener { firebaseAuth ->
-            if (firebaseAuth.currentUser != null) {
-                loginButton.text = "Log Out"
-                historyDataButton.visibility = View.VISIBLE
-                saveMeasuresButton.visibility = View.VISIBLE
-            } else {
-                loginButton.text = "Log In"
-                saveMeasuresButton.visibility = View.INVISIBLE
-                historyDataButton.visibility = View.INVISIBLE
             }
         }
         saveMeasuresButton.setOnClickListener {
@@ -99,6 +101,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         historyDataButton.setOnClickListener {
             val intent = Intent(this, HistoryActivity::class.java)
             startActivity(intent)
+            finish()
         }
         loginButton.setOnClickListener {
             if (auth.currentUser != null) {
@@ -106,12 +109,27 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             } else {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
 
+        // Set up sensor and request permission
         setUpSensorStuff()
         requestRecordAudioPermission()
     }
+
+    private fun setLoggedInState() {
+        loginButton.text = "Log Out"
+        historyDataButton.visibility = View.VISIBLE
+        saveMeasuresButton.visibility = View.VISIBLE
+    }
+
+    private fun setLoggedOutState() {
+        loginButton.text = "Log In"
+        saveMeasuresButton.visibility = View.INVISIBLE
+        historyDataButton.visibility = View.INVISIBLE
+    }
+
 
     private fun setUpSensorStuff() {
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager

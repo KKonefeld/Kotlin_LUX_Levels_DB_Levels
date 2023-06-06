@@ -1,5 +1,6 @@
 package com.example.lux_db_meter
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -37,7 +38,8 @@ class HistoryActivity : AppCompatActivity() {
 
                         val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                             .format(timestamp?.let { it1 -> Date(it1.toLong()) })
-
+                        val cardSpacingPx = resources.dpToPx(16)
+                        var isFirstEntry = true
                         // Iterate through measurements under each timestamp
                         for (measurementSnapshot in timestampSnapshot.children) {
                             val decibelsSnapshot = measurementSnapshot.child("decibels")
@@ -52,7 +54,7 @@ class HistoryActivity : AppCompatActivity() {
 
                             // Update the child views within the CardView
                             val timestampTextView = cardView.findViewById<TextView>(R.id.timestampTextView)
-                            timestampTextView.text = "Timestamp: $date"
+                            timestampTextView.text = "Date: $date"
 
                             val decibelsTextView = cardView.findViewById<TextView>(R.id.decibelsTextView)
                             decibelsTextView.text = "Decibels: $decibels"
@@ -60,8 +62,19 @@ class HistoryActivity : AppCompatActivity() {
                             val luminosityTextView = cardView.findViewById<TextView>(R.id.luminosityTextView)
                             luminosityTextView.text = "Luminosity: $luminosity"
 
+                            // Set bottom margin for spacing
+                            if (isFirstEntry) {
+                                val layoutParams = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                layoutParams.bottomMargin = cardSpacingPx
+                                cardView.layoutParams = layoutParams
+                            }
                             // Add the CardView to the LinearLayout
                             linearLayout.addView(cardView)
+
+
                         }
                     }
                 }
@@ -72,5 +85,9 @@ class HistoryActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+    fun Resources.dpToPx(dp: Int): Int {
+        val density = displayMetrics.density
+        return (dp * density).toInt()
     }
 }

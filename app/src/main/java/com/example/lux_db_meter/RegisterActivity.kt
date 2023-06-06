@@ -45,6 +45,7 @@ class RegisterActivity : AppCompatActivity() {
         tvRedirectLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -77,5 +78,13 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Singed Up Failed!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+    override fun onBackPressed() {
+        startMainActivity()
+        finish() // Finish the reg
     }
 }
