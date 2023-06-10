@@ -1,8 +1,10 @@
 package com.example.lux_db_meter
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.TransitionDrawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -25,6 +27,7 @@ import kotlin.math.log10
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.example.lux_db_meter.auth
+import pl.droidsonroids.gif.GifImageView
 
 // admin@admin.com 123456
 
@@ -54,6 +57,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private lateinit var loginButton: Button
     private lateinit var historyDataButton: Button
+
+
+    //gif
+    private lateinit var animationView: GifImageView
 
     companion object {
         private const val RECORD_AUDIO_PERMISSION = Manifest.permission.RECORD_AUDIO
@@ -113,6 +120,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
+        animationView = findViewById(R.id.animationView)
+
+        val rotationAnimator = ObjectAnimator.ofFloat(
+            animationView, "rotation", 0f, 360f
+        ).apply {
+            duration = 2000 // Set the duration of the rotation animation in milliseconds
+            repeatCount = ObjectAnimator.INFINITE // Repeat the animation indefinitely
+            start()
+        }
+
         // Set up sensor and request permission
         setUpSensorStuff()
         requestRecordAudioPermission()
@@ -151,6 +168,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         startMeasuringButton.text = "Stop Recording"
         decibel.text = "Decibels: Recording"
         maxLuminosityLevel = 0f
+
+
+
+        animationView.setImageResource(R.drawable.lightbulb)
+
+
 
         // Start luminosity recording
         if (luminosityEnabled) {
@@ -196,7 +219,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         Toast.makeText(this, "Recording started", Toast.LENGTH_SHORT).show()
 
         // Schedule stop recording after 3 seconds
-        stopRecordingHandler.postDelayed(stopRecordingRunnable, 3000)
+        stopRecordingHandler.postDelayed(stopRecordingRunnable, 5000)
+
     }
 
     private fun stopRecording() {
@@ -219,6 +243,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         decibel.text = "Decibels: $decibels dB"
 
 
+
+        animationView.setImageResource(R.drawable.speaker)
         outputFile.delete()
     }
 

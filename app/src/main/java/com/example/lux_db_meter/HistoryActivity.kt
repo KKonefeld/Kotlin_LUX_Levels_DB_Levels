@@ -1,7 +1,9 @@
 package com.example.lux_db_meter
 
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +22,7 @@ class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
+
 
 
 
@@ -62,6 +65,11 @@ class HistoryActivity : AppCompatActivity() {
                             val luminosityTextView = cardView.findViewById<TextView>(R.id.luminosityTextView)
                             luminosityTextView.text = "Luminosity: $luminosity"
 
+                            val shareButton = cardView.findViewById<Button>(R.id.shareButton)
+                            shareButton.setOnClickListener {
+                                shareMeasurement(luminosity, decibels, date)
+                            }
+
                             // Set bottom margin for spacing
                             if (isFirstEntry) {
                                 val layoutParams = LinearLayout.LayoutParams(
@@ -86,8 +94,28 @@ class HistoryActivity : AppCompatActivity() {
             })
         }
     }
+    private fun shareMeasurement(luminosity: Float?, decibels: Int?, date: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Luminosity: $luminosity\nDecibels: $decibels\nDate: $date")
+
+
+
+        startActivity(Intent.createChooser(shareIntent, "Share via"))
+    }
+
     fun Resources.dpToPx(dp: Int): Int {
         val density = displayMetrics.density
         return (dp * density).toInt()
+    }
+
+    override fun onBackPressed() {
+        startMainActivity()
+        finish() // Finish the LoginActivity
+    }
+
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }

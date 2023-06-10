@@ -32,7 +32,7 @@
                 android:layout_height="300dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/historyDataButton"
-                android:src="@drawable/newbulb" />
+                android:src="@drawable/speaker" />
 
             <Button
                 android:id="@+id/startMeasuringButton"
