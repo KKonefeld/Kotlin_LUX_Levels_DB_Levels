@@ -89,7 +89,7 @@ class HistoryActivity : AppCompatActivity() {
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     // Handle database error, e.g., display an error message
-                    Toast.makeText(this@HistoryActivity, "Database Error: ${databaseError.message}", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@HistoryActivity, "Database Error: ${databaseError.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         }

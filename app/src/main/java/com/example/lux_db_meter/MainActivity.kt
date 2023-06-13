@@ -74,7 +74,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         // Views
         text = findViewById(R.id.luminosityTextView)
         decibel = findViewById(R.id.decibelTextView)
-
+        setUpSensorStuff()
+        requestRecordAudioPermission()
         // Buttons
         startMeasuringButton = findViewById(R.id.startMeasuringButton)
         loginButton = findViewById(R.id.loginButton)
@@ -90,11 +91,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
         }
 
+        setUpSensorStuff()
+        requestRecordAudioPermission()
+        sensorManager.registerListener(this, luminosity, SensorManager.SENSOR_DELAY_NORMAL)
         // Button Click Listeners
         startMeasuringButton.setOnClickListener {
             if (isRecording) {
                 stopRecording()
             } else {
+
                 startRecording()
             }
         }
@@ -102,7 +107,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             if (decibels != null && maxLuminosityLevel != null) {
                 saveMeasurementsToDatabase(decibels!!, maxLuminosityLevel)
             } else {
-                Toast.makeText(this, "Invalid data", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Invalid data", Toast.LENGTH_SHORT).show()
             }
         }
         historyDataButton.setOnClickListener {
@@ -131,8 +136,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
 
         // Set up sensor and request permission
-        setUpSensorStuff()
-        requestRecordAudioPermission()
+
     }
 
     private fun setLoggedInState() {
@@ -167,6 +171,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         isRecording = true
         startMeasuringButton.text = "Stop Recording"
         decibel.text = "Decibels: Recording"
+        text.text =  "Luminosity: Recording"
         maxLuminosityLevel = 0f
 
 
@@ -261,7 +266,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor?.type == Sensor.TYPE_LIGHT) {
+        if (isRecording && event?.sensor?.type == Sensor.TYPE_LIGHT) {
             val light = event.values[0]
 
 
@@ -283,7 +288,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onPause() {
         super.onPause()
-        sensorManager.unregisterListener(this)
+        sensorManager.unregisterListener(this, brightness)
     }
 
     private fun logout() {
@@ -314,7 +319,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                         Toast.makeText(this, "Measurement saved successfully", Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener { exception ->
-                        Toast.makeText(this, "Failed to save measurement: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this, "Failed to save measurement: ${exception.message}", Toast.LENGTH_SHORT).show()
                     }
             }
         }
